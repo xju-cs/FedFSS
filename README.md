@@ -11,11 +11,13 @@ torch 1.12.1; torchaudio 0.12.1; torchvision 0.13.1
 pip install soundfile, tqdm, matplotlib, Pillow, scikit-learn, numpy
 
 #### Result
-EER（%）
+## Training on Vox1
+
 | Method | Client1 | Client2 | Client3 | Client4 |
-|Trainning on Vox1|---------|---------||
-| baseline|6.45 | 6.79 |6.29|6.99|
-| FedFSS|4.72| 4.65 |4.57|5.07|
+|--------|---------|---------|---------|---------|
+| baseline | 6.45 | 6.79 | 6.29 | 6.99 |
+| FedFSS | 4.72 | 4.65 | 4.57 | 5.07 |
+
 
 
 
