@@ -1,6 +1,7 @@
 # Federated Learning with Feature Space Separation for Speaker Recognition
 
-#### FedFSS  
+#### FedFSS
+\!\[markdown picture](./picture/github.png)
 
 #### Training
 python train_fed_anchor_lama_gamma.py
@@ -14,6 +15,7 @@ pip install soundfile, tqdm, matplotlib, Pillow, scikit-learn, numpy
 
 #### Notice
 standard方法需单独配置参数
+
 
 
 
