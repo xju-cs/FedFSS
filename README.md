@@ -1,23 +1,11 @@
-# 联邦说话人识别
+# Federated Learning with Feature Space Separation for Speaker Recognition
 
-#### FedFSS 介绍
+#### FedFSS  
 
-软件架构说明  
-
-data目录下包含训练列表，使用时需替换数据路径  
-
-standard为中心训练方法
-fedavg为FedAvg方法  
-moon为MOON方法  
-fedprox为fedProx方法  
-****_lama为添加权重再分配DWA方法  
-****_gamma为添加收缩因子方法 
-
-#### 运行
+#### Training
 python train_fed_anchor_lama_gamma.py
-python run_standard.py
 
-#### 环境
+#### Environment
 torch 1.12.1; torchaudio 0.12.1; torchvision 0.13.1  
 pip install soundfile, tqdm, matplotlib, Pillow, scikit-learn, numpy
 
@@ -26,5 +14,6 @@ pip install soundfile, tqdm, matplotlib, Pillow, scikit-learn, numpy
 
 #### Notice
 standard方法需单独配置参数
+
 
 
