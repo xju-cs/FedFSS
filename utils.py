@@ -424,9 +424,6 @@ def import_config(config_file):
     return config
 
 
-def get_logger(args):
-    return Logger(args.log_file)
-
 
 def get_loss_function(loss_type, n_class, m, s, embed_dim):
     if loss_type == 'ce':
