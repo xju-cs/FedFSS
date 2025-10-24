@@ -13,9 +13,10 @@ pip install soundfile, tqdm, matplotlib, Pillow, scikit-learn, numpy
 #### Result
 EER（%）
 | Method | Client1 | Client2 | Client3 | Client4 |
-|Trainning on Vox1|---------|---------|
+|Trainning on Vox1|---------|---------||
 | baseline|6.45 | 6.79 |6.29|6.99|
 | FedFSS|4.72| 4.65 |4.57|5.07|
+
 
 
 
