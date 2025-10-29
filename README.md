@@ -20,9 +20,20 @@ pip install soundfile, tqdm, matplotlib, Pillow, scikit-learn, numpy
 
 ### Citation
 
-Since I haven't learned this part of the Markdown code yet, you can skip referencing it for now, and we'll deal with it once I've learned it.
+## Reference
+
+```bibtex
+@inproceedings{fang2023robust,
+  title={Robust Training for Speaker Verification against Noisy Labels},
+  author={Fang, Zhihua and He, Liang and Ma, Hanhan and Guo, Xiaochen and Li, Lin},
+  booktitle={Proc. INTERSPEECH 2023},
+  pages={3192--3196},
+  year={2023},
+  doi={10.21437/Interspeech.2023-452}
+}
 
 ## I'm so glad that our sharing was useful to you.
+
 
 
 
