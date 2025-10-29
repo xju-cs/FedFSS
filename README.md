@@ -20,9 +20,10 @@ pip install soundfile, tqdm, matplotlib, Pillow, scikit-learn, numpy
 
 ### Citation
 
-Since I haven't learned this part of the Markdown code yet, you can skip quoting it for now.
+Since I haven't learned this part of the Markdown code yet, you can skip referencing it for now, and we'll deal with it once I've learned it.
 
 ## I'm so glad that our sharing was useful to you.
+
 
 
 
