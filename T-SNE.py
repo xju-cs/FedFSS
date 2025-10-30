@@ -1,4 +1,5 @@
 
+
 import numpy as np
 from sklearn.manifold import TSNE
 import datetime
@@ -21,7 +22,7 @@ from utils import *
 from datasets import BaseDataset
 
 save_root = 'exp/test_t-SNE'
-# os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "6"
 train_start_time = datetime.datetime.now()
 print('start time:{}'.format(train_start_time))
 
@@ -29,12 +30,12 @@ parser = argparse.ArgumentParser(description="AL_trainer")
 ## Training Settings
 parser.add_argument('--num_frames', type=int, default=200)
 parser.add_argument('--max_epoch', type=int, default=100)
-parser.add_argument('--batch_size', type=int, default=32)
+parser.add_argument('--batch_size', type=int, default=16)
 parser.add_argument('--n_cpu', type=int, default=8)
 parser.add_argument('--lr', type=float, default=0.001)
 parser.add_argument("--lr_decay", type=float, default=0.97)
 parser.add_argument("--loss_type", type=str, default='am')
-parser.add_argument("--config_name", type=str, default='')
+parser.add_argument("--config_name", type=str, default='FLFSS_tsne')
 ## Model and Loss settings
 parser.add_argument('--C', type=int, default=1024)
 parser.add_argument('--embed_dim', type=int, default=512)
@@ -48,6 +49,7 @@ parser.add_argument('--train_method',type=str,default='global',help='local ,glob
 ## reweight hyperparameters
 parser.add_argument('--reweight_method', type=str, default='exp',help="exp,com,softmax")
 parser.add_argument("--gamma", type=float, default=1.0)
+parser.add_argument("--choice_size",type=int, default='')
 ## Initialization
 warnings.simplefilter("ignore")
 torch.multiprocessing.set_sharing_strategy('file_system')
@@ -116,8 +118,8 @@ def main(args):
     for key, model_path in args.client_model_path.items():
     # Build clients
         j+=1
-        row = j // 2  # 整除得到行号
-        col = j % 2  # 取余得到列号
+        row = j // 2  
+        col = j % 2  
         client_train_datasets = []
         client_train_loaders = []
         client_models = []
@@ -128,7 +130,7 @@ def main(args):
         for i in range(args.num_clients):
             logger.log("Building Client {}...".format(i + 1))
             client_label_mapping[i] = getlabel_mapping(args.client_train_lists[i])
-            client_train_datasets.append(BaseDataset(args.client_train_lists[i], args.num_frames))
+            client_train_datasets.append(BaseDataset(args.client_train_lists[i],'', args.num_frames))
             client_train_loaders.append(DataLoader(client_train_datasets[i], batch_size=args.batch_size, shuffle=True,
                                                    num_workers=args.n_cpu, drop_last=False))
             args.n_class = client_train_datasets[i].get_speaker_number()
@@ -139,24 +141,28 @@ def main(args):
             embedding, labels = extract_embedding(client_models[i], i + 1, client_train_loaders[i])
             all_embeddings.extend(embedding)
             all_labels.extend(f'{i}_{client_label_mapping[i][label]}' for label in labels)
+        dimension_indices = np.random.choice(args.embed_dim, size=args.choice_size, replace=False)
+        dimension_indices.sort()
 
-        combined_embeddings = np.vstack(all_embeddings)
+        reduced_embeddings = []
+        for embedding in all_embeddings:
+
+            reduced_vec = embedding[dimension_indices]
+            reduced_embeddings.append(reduced_vec)
+        combined_embeddings = np.vstack(reduced_embeddings)
         tsne = TSNE(n_components=2, random_state=0, perplexity=min(30, len(combined_embeddings) - 1))  # 确保 perplexity 小于样本数
         embeddings_2d = tsne.fit_transform(combined_embeddings)
 
-        unique_labels = np.unique(all_labels) # 使用tab10调色板
+        unique_labels = np.unique(all_labels) 
         for idx, label in enumerate(unique_labels):
-            mask = np.array(all_labels) == label  # 创建布尔掩码
+            mask = np.array(all_labels) == label  
             axs[j].scatter(embeddings_2d[mask, 0], embeddings_2d[mask, 1], marker=markers[idx % len(markers)], c=[colors[int(label.split('_')[0])]],
                     label=f'{label.split("_")[-1]}', alpha=0.6)
         axs[j].set_title('{}'.format(key))
     handles, labels = axs[0].get_legend_handles_labels()
     fig.legend(handles, labels, loc='upper center', bbox_to_anchor=(0.5,1.0), ncol=(len(unique_labels)//2), fancybox=True,
                shadow=True)
-    # 调整布局以避免重叠
     plt.tight_layout()
-
-    # 调整顶部间距以适应图例
     plt.subplots_adjust(top=0.8)
     plt.savefig(os.path.join(args.save_path, 't-SNE.png'))
 
