@@ -16,7 +16,7 @@ pip install soundfile, tqdm, matplotlib, Pillow, scikit-learn, numpy
 | Method | Client1 | Client2 | Client3 | Client4 |
 |--------|---------|---------|---------|---------|
 | baseline | 6.45 | 6.79 | 6.29 | 6.99 |
-| Fedavg |  | 4.86 |4.94 | 4.98 | 5.62 |
+| Fedavg | 4.86 |4.94 | 4.98 | 5.62 |
 | FedFSS | 4.72 | 4.65 | 4.57 | 5.07 |
 
 ### Citation
@@ -33,6 +33,7 @@ pip install soundfile, tqdm, matplotlib, Pillow, scikit-learn, numpy
 ```
 
 ## I'm so glad that our sharing was useful to you.
+
 
 
 
